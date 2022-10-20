@@ -36,15 +36,42 @@ public class Calculator_1 {
         int f = flag.general_array();// код 1, 2,3.....4 определения типа введенных данных
 
 
+        try{
+            if (f == 1){
+                throw new Exception("throws Exception // Некорректный ввод данных.");
+            }
+        }catch (Exception e){
+            System.out.println("throws Exception // Некорректный ввод данных.");
+        }
+
+
+
+        try{
+            if (flag.operand_error() == false){
+                throw new Exception("throws Exception // Неверный знак математической операции.");
+            }
+        }catch (Exception e){
+            System.out.println("throws Exception // Неверный знак математической операции.");
+        }
+
+        if (f == 2){
+            try{
+                if (Integer.valueOf(example_1[0])< 0 || Integer.valueOf(example_1[2]) > 10 || Integer.valueOf(example_1[0])>10 || Integer.valueOf(example_1[2])<0) {
+                    throw new Exception("throws Exception // Один или оба операнда находятся вне пределов от 0 до 10 включительно");
+                }
+            }catch (Exception e){
+                System.out.println("throws Exception // Один или оба операнда находятся вне пределов от 0 до 10 включительно");
+            }
+        }
 
 
 
         try{
             if (f == 0) {
-                throw new Exception("Некорректный ввод данных");
+                throw new Exception("throws Exception // Некорректный ввод данных");
             }
         }catch (Exception e){
-            System.out.println("Некорректный ввод данных");
+            System.out.println("throws Exception // Некорректный ввод данных");
         }
 
 
@@ -68,7 +95,7 @@ public class Calculator_1 {
         String[] rome = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
         String[] romeTens = {"X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};
         String[] romeHundreds = {"C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM", "M"};
-        String[] operators = {"+", "-", "*", "/"}; // массив операторов
+
 
 
 
@@ -162,9 +189,7 @@ public class Calculator_1 {
         }
 
 
-
-
-        if (f == 6) {                     // блок работы с римскими цифрами
+        if (f == 6 || f == 3) {                     // блок работы с римскими цифрами
             Algebra cifra = new Algebra(); // класс для вычислений
             cifra.alfa = Integer.valueOf(romeArabDictionary.get(alfa)); // преобразуем  римскуие цифры в арабские числовой тип
             cifra.gamma = Integer.valueOf(romeArabDictionary.get(gamma));
@@ -172,12 +197,22 @@ public class Calculator_1 {
             int alfa_6 = cifra.alfa; // трансформированные римские числа в арабские тип инт
             int gamma_6 = cifra.gamma;
 
+
+            if(f == 3 && (alfa_6>10 || gamma_6>10)){
+                try {
+                    throw new Exception("throws Exception // Одно из чмсел больше 10");
+
+                } catch (Exception e) {
+                    System.out.println("throws Exception // Одно из чмсел больше 10");
+                }
+            }
+
             try {
                 if (alfa_6 < gamma_6 && betta.equals("-") ) {
-                    throw new Exception("т.к. в римской системе нет отрицательных чисел");
+                    throw new Exception("throws Exception // т.к. в римской системе нет отрицательных чисел");
                 }
             } catch (Exception e) {
-                System.out.println("т.к. в римской системе нет отрицательных чисел");
+                System.out.println("throws Exception // т.к. в римской системе нет отрицательных чисел");
             }
 
             if (f == 6){//(Integer.valueOf(romeArabDictionary.get(alfa)) > Integer.valueOf(romeArabDictionary.get(gamma))) {
@@ -192,90 +227,100 @@ public class Calculator_1 {
                     System.out.println("Результат умножения равен   " + romeDictionary.get(Integer.toString(cifra.multiplication())));
                 }
 
-            try {
-                if (betta.equals("/")) {
-                    if (cifra.division() < 1) {
-                        throw new Exception("throws Exception //т.к. в римской системе нет отрицательных чисел");
-                    } else {
-                        System.out.println("Результат деления равен   " + romeDictionary.get(Integer.toString(cifra.division())));
+                try {
+                    if (betta.equals("/")) {
+                        if (cifra.division() < 1) {
+                            throw new Exception("throws Exception //т.к. в римской системе нет отрицательных чисел");
+                        } else {
+                            System.out.println("Результат деления равен   " + romeDictionary.get(Integer.toString(cifra.division())));
+                        }
                     }
+                }catch (Exception e){
+                    System.out.println("throws Exception //т.к. в римской системе нет отрицательных чисел");
                 }
-            }catch (Exception e){
-                System.out.println("throws Exception //т.к. в римской системе нет отрицательных чисел");
-            }
 
             }
-        }
-
         }
 
     }
 
-    class Algebra {    // класс с методами  калькулятора
-        int alfa;
-        int gamma;
-        int suma(){                        // метод сложения
-            int result = alfa + gamma;
-            return result;
+}
+
+class Algebra {    // класс с методами  калькулятора
+    int alfa;
+    int gamma;
+    int suma(){                        // метод сложения
+        int result = alfa + gamma;
+        return result;
+    }
+    int razn() {                       //метод вычитания
+        int result = alfa - gamma;
+        return result;
+    }
+    int multiplication() {             //метод умножения
+        int result = alfa * gamma;
+        return result;
+    }
+    int division() {                   // метод деления
+        int result = alfa / gamma;
+        return result;
+    }
+}
+
+class Flagi {
+    String alfa;
+    String betta;
+    String gamma;
+    String[] arabs = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
+    ;
+    String[] rome = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
+    String[] operators = {"+", "-", "*", "/"}; // массив операторов
+
+    boolean operand_error() {  // метод проверки оператора на соответсвие
+        boolean flag = false;
+        for (String x : operators){
+            if(x.equals(betta)){
+                flag = true;
+            }
         }
-        int razn() {                       //метод вычитания
-            int result = alfa - gamma;
-            return result;
-        }
-        int multiplication() {             //метод умножения
-            int result = alfa * gamma;
-            return result;
-        }
-        int division() {                   // метод деления
-            int result = alfa / gamma;
-            return result;
-        }
+        return flag;
     }
 
-    class Flagi {
-        String alfa;
-        String betta;
-        String gamma;
-        String[] arabs = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
-        ;
-        String[] rome = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
+    int general_array() {
+        int flag1 = 0;
+        if (alfa.equals("X")) {
+            flag1 += 3;
+        }
+        if (gamma.equals("X")) {
+            flag1 += 3;
+        }
+        if (alfa.equals("10") || (alfa.equals("0"))) {
+            flag1 += 1;
+        }
+        if (gamma.equals("10") || (gamma.equals("0"))){
+            flag1 += 1;
+        }
 
-        int general_array() {
-            int flag1 = 0;
-            if (alfa.equals("X")) {
-                flag1 += 3;
-            }
-            if (gamma.equals("X")) {
-                flag1 += 3;
-            }
-            if (alfa.equals("10") || (alfa.equals("0"))) {
+
+        for (String x : arabs) {
+            if (x.equals(alfa)) {
                 flag1 += 1;
             }
-            if (gamma.equals("10") || (gamma.equals("0"))){
+            if (x.equals(gamma)) {
                 flag1 += 1;
             }
-
-
-            for (String x : arabs) {
-                if (x.equals(alfa)) {
-                    flag1 += 1;
-                }
-                if (x.equals(gamma)) {
-                    flag1 += 1;
-                }
-            }
-            for (String x : rome) {
-                if (x.equals(alfa)) {
-                    flag1 += 3;
-                }
-
-                if (x.equals(gamma)) {
-                    flag1 += 3;
-                }
-            }
-            int flag2 = flag1;
-            return flag2;
         }
+        for (String x : rome) {
+            if (x.equals(alfa)) {
+                flag1 += 3;
+            }
 
+            if (x.equals(gamma)) {
+                flag1 += 3;
+            }
+        }
+        int flag2 = flag1;
+        return flag2;
     }
 
+}
