@@ -1,14 +1,19 @@
 import java.util.*;
 
 public class Main{
+    public static String example;
     public static void main(String[] args)  throws  ArithmeticException, ArrayIndexOutOfBoundsException,Exception {
+        Scanner scan = new Scanner(System.in);// место в памяти для ввода данных
+        System.out.println("Введите пример");
+        Main.example = new String();
+        Main.example = scan.nextLine();
+
+
         System.out.println(Main.calc());
     }
 
     public static String calc() throws  ArithmeticException, ArrayIndexOutOfBoundsException,Exception {
-        Scanner scan = new Scanner(System.in);// место в памяти для ввода данных
-        System.out.println("Введите пример");
-        String example = scan.nextLine();
+
 
         String[] example_1 = new String[3];
         example_1 = example.split(" ");// массив строк разделенных по пробелу
